@@ -23,8 +23,8 @@
 local json = require 'json'
 local zmq = require 'zmq'
 
-local request = require 'mongrel2.request'
-local util = require 'mongrel2.util'
+local request = require 'monserver.request'
+local util = require 'monserver.util'
 
 local pairs, pcall, setmetatable, tostring = pairs, pcall, setmetatable, tostring
 local insert, concat, format, length = table.insert, table.concat, string.format, string.len 
@@ -34,7 +34,7 @@ Connection.__index = Connection
 
 --[[
     A Connection object manages the connection between your handler
-    and a Mongrel2 server (or servers).  It can receive raw requests
+    and a monserver server (or servers).  It can receive raw requests
     or JSON encoded requests whether from HTTP or MSG request types,
     and it can send individual responses or batch responses either
     raw or as JSON.  It also has a way to encode HTTP responses
@@ -56,7 +56,7 @@ local function http_response(body, code, status, headers)
 end
 
 --[[
-    Receives a raw mongrel2.request object that you can then work with.
+    Receives a raw monserver.request object that you can then work with.
     Upon error while parsing the data, returns nil and an error message.
 ]]
 function Connection:recv()
@@ -134,7 +134,7 @@ end
     This lets you send a single message to many currently
     connected clients.  There's a MAX_IDENTS that you should
     not exceed, so chunk your targets as needed.  Each target
-    will receive the message once by Mongrel2, but you don't have
+    will receive the message once by monserver, but you don't have
     to loop which cuts down on reply volume.
 ]]
 function Connection:deliver(uuid, idents, data)
@@ -162,7 +162,7 @@ function Connection:deliver_http(uuid, idents, body, code, status, headers)
 end
 
 --[[
--- Tells Mongrel2 to explicitly close the HTTP connection.
+-- Tells monserver to explicitly close the HTTP connection.
 --]]
 function Connection:close(req)
     return self:reply(req, "")
