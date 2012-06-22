@@ -45,6 +45,7 @@ Connection.__index = Connection
 local HTTP_FORMAT = 'HTTP/1.1 %s %s\r\n%s\r\n\r\n%s'
 
 local function http_response(body, code, status, headers)
+	body = body or 'none'
     headers['content-length'] = length(body)
     
     local raw = {}
