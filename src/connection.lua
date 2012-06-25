@@ -50,7 +50,7 @@ local function http_response(body, code, status, headers)
     
     local raw = {}
     for k, v in pairs(headers) do
-        insert(raw, format('%s: %s', k, v))
+        insert(raw, format('%s: %s', tostring(k), tostring(v)))
     end
     
     return format(HTTP_FORMAT, code, status, concat(raw, '\r\n'), body)
